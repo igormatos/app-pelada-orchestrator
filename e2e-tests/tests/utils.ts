@@ -75,3 +75,50 @@ export async function acceptPendingInvitation(page: Page, orgName: string) {
   await page.getByRole('link', { name: orgName }).click();
   await expect(page).toHaveURL(/\/organizations\/\d+/, { timeout: 15000 });
 }
+
+/** Team draw algorithms offered in the randomize dialog. */
+export type DrawAlgorithm = 'classic' | 'gemini' | 'gpt';
+
+/**
+ * Draws the teams of a pelada from the detail page.
+ *
+ * Opens the randomize dialog, picks an algorithm (the dialog remembers the last
+ * one, so it is always set explicitly), optionally turns chemistry off, and
+ * confirms. The two new algorithms answer with a justification dialog, which is
+ * closed here unless `keepReportOpen` is set — callers that assert on the
+ * report need it left open.
+ */
+export async function randomizeTeams(
+  page: Page,
+  options: {
+    algorithm?: DrawAlgorithm;
+    useHistory?: boolean;
+    keepReportOpen?: boolean;
+  } = {},
+) {
+  const { algorithm = 'classic', useHistory = true, keepReportOpen = false } = options;
+
+  await page.getByTestId('randomize-teams-button').click();
+  await page.getByTestId(`draw-algorithm-${algorithm}`).click();
+
+  if (algorithm !== 'classic') {
+    const toggle = page.getByTestId('draw-use-history-toggle').locator('input');
+    if ((await toggle.isChecked()) !== useHistory) {
+      await toggle.click();
+    }
+  }
+
+  await page.getByTestId('confirm-randomize-button').click();
+
+  if (algorithm === 'classic') {
+    await expect(page.getByTestId('confirm-randomize-button')).toBeHidden();
+    return;
+  }
+
+  const report = page.getByTestId('close-draw-report-button');
+  await expect(report).toBeVisible({ timeout: 30000 });
+  if (!keepReportOpen) {
+    await report.click();
+    await expect(report).toBeHidden();
+  }
+}

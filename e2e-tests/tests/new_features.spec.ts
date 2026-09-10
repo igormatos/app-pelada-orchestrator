@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { saveVideo, acceptPendingInvitation } from './utils';
+import { saveVideo, acceptPendingInvitation, randomizeTeams } from './utils';
 
 test.describe('New Features: GK Stats, Admin Edit after Closed, Voting Stats', () => {
   const timestamp = Date.now();
@@ -88,7 +88,7 @@ test.describe('New Features: GK Stats, Admin Edit after Closed, Voting Stats', (
     await page.getByTestId('close-attendance-button').click();
     
     // Randomize
-    await page.getByTestId('randomize-teams-button').click();
+    await randomizeTeams(page);
     await page.waitForTimeout(1000);
 
     await page.getByTestId('start-pelada-button').click();

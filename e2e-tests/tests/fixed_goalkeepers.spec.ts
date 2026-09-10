@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { saveVideo } from './utils';
+import { saveVideo, randomizeTeams } from './utils';
 
 test.describe('Feature: Global Fixed Goalkeepers', () => {
   const timestamp = Date.now();
@@ -60,7 +60,7 @@ test.describe('Feature: Global Fixed Goalkeepers', () => {
         await page.getByTestId('create-team-button').click();
         await page.getByTestId('create-team-button').click();
         
-        await page.getByTestId('randomize-teams-button').click();
+        await randomizeTeams(page);
         await page.waitForTimeout(1000);
 
         const startBtn = page.getByTestId('start-pelada-button');

@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { acceptPendingInvitation } from './utils';
+import { acceptPendingInvitation, randomizeTeams } from './utils';
 
 test.describe('Edit Match Feature', () => {
   const timestamp = Date.now();
@@ -71,7 +71,7 @@ test.describe('Edit Match Feature', () => {
       await page.getByTestId('close-attendance-button').click();
       
       await page.reload();
-      await page.getByTestId('randomize-teams-button').click();
+      await randomizeTeams(page);
       await page.getByTestId('start-pelada-button').click();
       await page.getByTestId('confirm-start-pelada-button').click();
 

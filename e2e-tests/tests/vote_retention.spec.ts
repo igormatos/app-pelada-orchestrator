@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { saveVideo, acceptPendingInvitation } from './utils';
+import { saveVideo, acceptPendingInvitation, randomizeTeams } from './utils';
 
 test.describe('Voting Feature: Retention and Isolation', () => {
   const timestamp = Date.now();
@@ -83,7 +83,7 @@ test.describe('Voting Feature: Retention and Isolation', () => {
       await ownerPage.getByTestId('close-attendance-button').click();
 
       // Start and End Pelada
-      await ownerPage.getByTestId('randomize-teams-button').click();
+      await randomizeTeams(ownerPage);
       await ownerPage.getByTestId('start-pelada-button').click();
       await ownerPage.getByTestId('confirm-start-pelada-button').click();
       await ownerPage.getByTestId('end-match-button').click();

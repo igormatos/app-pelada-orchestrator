@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { saveVideo, acceptPendingInvitation } from './utils';
+import { saveVideo, acceptPendingInvitation, randomizeTeams } from './utils';
 
 test.describe('Phase 5: Post-Match & Analytics', () => {
   const timestamp = Date.now();
@@ -83,7 +83,7 @@ test.describe('Phase 5: Post-Match & Analytics', () => {
     await test.step('Start, End Match and Vote', async () => {
       await ownerPage.reload();
       await ownerPage.waitForTimeout(2000);
-      await ownerPage.getByTestId('randomize-teams-button').click();
+      await randomizeTeams(ownerPage);
       await ownerPage.getByTestId('start-pelada-button').click();
       await ownerPage.getByTestId('confirm-start-pelada-button').click();
 
