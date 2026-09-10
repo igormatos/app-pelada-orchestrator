@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { saveVideo, acceptPendingInvitation } from './utils';
+import { saveVideo, acceptPendingInvitation, randomizeTeams } from './utils';
 
 test.describe('Phase 4: Match Day', () => {
   const timestamp = Date.now();
@@ -117,7 +117,7 @@ test.describe('Phase 4: Match Day', () => {
       
       await ownerPage.reload();
       await ownerPage.waitForTimeout(2000);
-      await ownerPage.getByTestId('randomize-teams-button').click();
+      await randomizeTeams(ownerPage);
       await ownerPage.getByTestId('start-pelada-button').click();
       await ownerPage.getByTestId('confirm-start-pelada-button').click();
 

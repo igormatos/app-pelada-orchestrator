@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { saveVideo, acceptPendingInvitation } from './utils';
+import { saveVideo, acceptPendingInvitation, randomizeTeams } from './utils';
 
 test.describe('Phase 3: Pelada Management', () => {
   const timestamp = Date.now();
@@ -112,7 +112,7 @@ test.describe('Phase 3: Pelada Management', () => {
       await ownerPage.waitForTimeout(2000);
 
       // 7. Randomize Teams
-      await ownerPage.getByTestId('randomize-teams-button').click();
+      await randomizeTeams(ownerPage);
       // Wait for teams to be populated
       await expect(ownerPage.getByTestId('team-card-name').first()).toBeVisible();
       await expect(ownerPage.getByTestId('team-card-name').nth(1)).toBeVisible();

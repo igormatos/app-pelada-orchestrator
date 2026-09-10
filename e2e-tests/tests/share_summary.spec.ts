@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { randomizeTeams } from './utils';
 
 test.describe('Share Pelada Summary', () => {
   const timestamp = Date.now();
@@ -32,7 +33,7 @@ test.describe('Share Pelada Summary', () => {
     await page.getByTestId('close-attendance-button').click();
 
     // 3. Start Pelada
-    await page.getByTestId('randomize-teams-button').click();
+    await randomizeTeams(page);
     await page.getByTestId('start-pelada-button').click();
     await page.getByTestId('confirm-start-pelada-button').click();
 
